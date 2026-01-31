@@ -3,6 +3,23 @@ import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
     const [blur,setBlur] = useState(true)
+	const [Signup_Data,setSignup_Data] = useState({
+		username : "",
+		email : "" ,
+		password : "" ,
+		phone : "" ,
+		address : "" ,
+	})
+
+	const saveit = (e) => {
+          setSignup_Data({...Signup_Data , [e.target.name] : e.target.value })
+	}
+	
+	const Sendit = () => {
+		event.preventDefault()
+		
+	}
+
     const navigate = useNavigate()
     useEffect(()=>{
       blur == false ? navigate("/") : ""
@@ -14,19 +31,19 @@ const Signup = () => {
 		>
 			<div
 				onClick={(e) => e.stopPropagation()}
-				className="h-120 w-[90%] bg-[#F2F4F7] rounded-[15px] flex flex-col justify-center items-center gap-5"
+				className="sm:h-130 h-110 w-[90%] bg-[#F2F4F7] rounded-[15px] flex flex-col justify-center items-center gap-5"
 			>
 				<h1 className="text-[#1F2937] text-[18px] sm:text-[24px] font-medium ">
 					Sign Up
 				</h1>
 				<div className="border-1 border-[#E5E7EB] w-[80%]"></div>
-                <form className='boder-3 w-[80%] flex flex-col gap-3 items-center justify-center'>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' placeholder='UserName'  type="text" name='username'/>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' placeholder='Email'  type="email" name='email'/>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' placeholder='Password'  type="password" name='password'/>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' placeholder='Phone no.'  type="text" name='phone'/>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-20 h-15 ' placeholder='Address'  type="text" name='address'/>
-                    <input className='' placeholder='Address'  type="submit" name='address'/>
+                <form className='boder-3 w-[80%] flex flex-col gap-3 items-center justify-center' onSubmit={Sendit}>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='UserName'  type="text" name='username'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Email'  type="email" name='email'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Password'  type="password" name='password'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Phone no.'  type="text" name='phone'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-20 h-15 text-justify' onChange={saveit} placeholder='Address'  type="text" name='address'/>
+                    <input className='bg-[#0D6EFD] hover:bg-[#0B5ED7] w-[100%] sm:w-[50%] text-white sm:h-10 rounded-[10px] h-10 mt-8 sm:mt-4' value={"Create Account"}  type="submit" />
                 </form>
 			</div>
 		</div>

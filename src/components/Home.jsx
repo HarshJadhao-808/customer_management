@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Navbar from './Navbar'
 
 const Home = () => {
+  	const [sideshow, setSideshow] = useState(false);
   return (
-    <div className='w-screen h-screen'>
-      <h1>home</h1>
+    <div onClick={()=> setSideshow(false)} className='w-screen h-screen'>
+      <Navbar setSideshow={setSideshow} sideshow={sideshow}/>
     </div>
   )
 }
