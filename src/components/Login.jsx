@@ -2,21 +2,39 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import hide from '/src/assets/invisible.png'
 import show from '/src/assets/view.png'
+import axios from 'axios';
+import Swal from 'sweetalert2';
 const Login = () => {
       const [blur, setBlur] = useState(true);
       const [view, setView] = useState(false);
       const [Login_Data , setLogin_Data] = useState({
-        email : "" ,
-        password : ""
+        Email : "" ,
+        Password : ""
       })
 
       const saveit = (e) => {
         setLogin_Data({...Login_Data , [e.target.name] : e.target.value})
       }
 
-      const Sendit = () => {
+      const Sendit = async () => {
         event.preventDefault()
-        console.log(Login_Data)
+        try {
+          
+          const response = await axios.post("http://localhost:5555/api/auth/login", Login_Data)
+          localStorage.setItem(JSON.stringify(response.data.token), "Token");
+          Swal.fire({
+            text: "Login Successfull !",
+            icon: "success",
+          });
+        } catch (error) {
+
+							Swal.fire({
+								text: "Login Failed !",
+								icon: "error",
+							});
+        }
+
+        
       }
 			const navigate = useNavigate();
 			useEffect(() => {
@@ -31,10 +49,10 @@ const Login = () => {
 				<div className="border-1  border-[#E5E7EB] w-[80%]"></div>
                 <form className='border- h-60 sm:h-80 w-[80%] flex flex-col gap-3 items-center justify-center' onSubmit={Sendit}>
                     <label className='text-[#4B5563] sm:w-[50%] w-[100%] font-bold text-left '>E-mail</label>
-                    <input className='outline-none  border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} type="email" name='email'/>
+                    <input className='outline-none  border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} type="email" name='Email'/>
                     <label className='text-[#4B5563] sm:w-[50%] w-[100%] font-bold text-left '>Password</label>
                     <span className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 flex' >
-                    <input className='outline-none h-8 sm:h-12 w-[90%]' onChange={saveit} type={!view ? "password" : "text" } name='password'/>
+                    <input className='outline-none h-8 sm:h-12 w-[90%]' onChange={saveit} type={!view ? "password" : "text" } name='Password'/>
                     <span onClick={()=> setView( !view ? true : false )} className=' flex items-center justify-center '  >
                       {!view ? 
                       <>

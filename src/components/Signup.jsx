@@ -1,23 +1,40 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
     const [blur,setBlur] = useState(true)
 	const [Signup_Data,setSignup_Data] = useState({
-		username : "",
-		email : "" ,
-		password : "" ,
-		phone : "" ,
-		address : "" ,
+		Username : "",
+		Email : "" ,
+		Password : "" ,
+		Contact : "" ,
+		Address : "" ,
 	})
 
 	const saveit = (e) => {
           setSignup_Data({...Signup_Data , [e.target.name] : e.target.value })
 	}
 	
-	const Sendit = () => {
+	const Sendit =async () => {
 		event.preventDefault()
-		
+		try {
+			const response = await axios.post("http://localhost:5555/api/auth/register", Signup_Data);
+			console.log("Signup Successfull", response.data);
+
+			Swal.fire({
+				text: "Signup Successfull !",
+				icon: "success",
+			});
+		} catch (error) {
+			console.log(error)
+			Swal.fire({
+				text: "Signup Failed !",
+				icon: "error",
+			});
+		}
+
 	}
 
     const navigate = useNavigate()
@@ -38,11 +55,11 @@ const Signup = () => {
 				</h1>
 				<div className="border-1 border-[#E5E7EB] w-[80%]"></div>
                 <form className='boder-3 w-[80%] flex flex-col gap-3 items-center justify-center' onSubmit={Sendit}>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='UserName'  type="text" name='username'/>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Email'  type="email" name='email'/>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Password'  type="password" name='password'/>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Phone no.'  type="text" name='phone'/>
-                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-20 h-15 text-justify' onChange={saveit} placeholder='Address'  type="text" name='address'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='UserName'  type="text" name='Username'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Email'  type="text" name='Email'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Password'  type="password" name='Password'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-12 h-8 ' onChange={saveit} placeholder='Phone no.'  type="text" name='Contact'/>
+                    <input className=' border-1 border-[#D1D5DB] w-[100%] sm:w-[50%] pl-2 sm:h-20 h-15 text-justify' onChange={saveit} placeholder='Address'  type="text" name='Address'/>
                     <input className='bg-[#0D6EFD] hover:bg-[#0B5ED7] w-[100%] sm:w-[50%] text-white sm:h-10 rounded-[10px] h-10 mt-8 sm:mt-4' value={"Create Account"}  type="submit" />
                 </form>
 			</div>

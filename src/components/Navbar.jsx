@@ -3,10 +3,18 @@ import logo from "/src/assets/bookstore_logo.png";
 import { Link, useNavigate } from 'react-router-dom';
 import downArrow from "/src/assets/arrow-down-3101.png";
 import exit from "/src/assets/exit.png";
+import {jwtDecode} from 'jwt-decode' ;
+
 const Navbar = ({setSideshow,sideshow}) => {
 	const Token = JSON.parse(localStorage.getItem("Token"))
-	const username="Harsh"
-	const email = "jadhaoharsh141@gmail.com";
+	let decoded;
+	let username;
+	let email;
+	if(Token){
+		 decoded = jwtDecode(Token)
+		 username=decoded.user.Username
+		 email = decoded.user.Email
+	}
 	// console.log(sideshow)
 	const Navigate = useNavigate()
 	const sideManager = (e) => {
@@ -14,7 +22,6 @@ const Navbar = ({setSideshow,sideshow}) => {
 		e.stopPropagation();
 	}
 	const [downarrow,setDownarrow] = useState(true)
-	console.log(downarrow)
   return (
 		<div onClick={()=> setSideshow(false)} className=" fixed z-3 w-screen h-8 sm:h-14 bg-amber-700 flex  justify-between items-center ">
 			<Link to="/">
@@ -27,7 +34,7 @@ const Navbar = ({setSideshow,sideshow}) => {
 			{Token ? (
 				<>
 					<div className="flex items-center justify-around w-40 sm:w-100 sm:w-60  text-white ">
-						<Link to="/gallery">
+						<Link to="/">
 							<div className="hidden sm:block cursor-pointer group">
 								<h1>Gallery</h1>
 								<div className="border-2 w-0 transition-all duration-300 group-hover:w-full origin-left scale-0 group-hover:scale-100"></div>
@@ -62,7 +69,7 @@ const Navbar = ({setSideshow,sideshow}) => {
 						</div>
 						<div className={`fixed z-3  right-[-5%] top-0 border-2 w-50 h-full bg-gray-600 ${!sideshow ? "scale-x-0" : "scale-x-100" } sm:hidden scale-x-0 origin-right transition-all duration-300 slidebar-hover:scale-x-100`}>
 							<ul className='text-center leading-15'>
-							<Link to="/gallery"><li  className=''>Gallery</li></Link>	
+							<Link to="/"><li  className=''>Gallery</li></Link>	
 							<Link to="/inventory"><li  className=''>Inventory</li></Link>	
 							<Link to="/trades"><li  className=''>Trades</li></Link>
 							<Link><li  className=''>logout</li></Link>	
