@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Navbar'
 import axios from 'axios'
+import { jwtDecode } from "jwt-decode";
+
 
 const Trades = () => {
        
 	  const [data,setData] = useState([])
+	  const token = JSON.parse(localStorage.getItem("Token"))
+		const decoded = jwtDecode(token)
+		const user_id = decoded.id
 	const getBooks = async () => {
-		const res = await axios.get("http://localhost:5555/api/book/getAll");
-		setData(res.data)
-		console.log(res.data)
+		const res = await axios.post("http://localhost:5555/api/book/getInventory",{user_id});
+		setData(res.data.data)
+		// console.log(res.data.data)
 	};
 	useEffect(() => {
 		getBooks();
 	}, []);
-
-	const statusUpdate = async(id) => {
-
-	}
-
-
     
   return (
 		<div>
@@ -33,7 +32,9 @@ const Trades = () => {
 						<th className="text-[10px] sm:text-[17px] font-extrabold ">Sold</th>
 					</tr>
 				</thead>
+				<tbody>
 				{data.map((el) => (
+					el.status == "sold" ?
 					<tr key={el._id}>
 						<td className="border-2 text-[10px] text-center sm:text-[18px] px-3">
 							{el.title}
@@ -51,7 +52,10 @@ const Trades = () => {
 							{(el.price)+(Math.floor(Math.random() *100))}
 						</td>
 					</tr>
+					:
+					""
 				))}
+				</tbody>
 			</table>
 		</div>
 	);

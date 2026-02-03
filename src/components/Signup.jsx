@@ -16,7 +16,7 @@ const Signup = () => {
 	const saveit = (e) => {
           setSignup_Data({...Signup_Data , [e.target.name] : e.target.value })
 	}
-	const navigate = useNavigate()
+	const Navigate = useNavigate()
 	
 	const Sendit =async () => {
 		event.preventDefault()
@@ -28,7 +28,7 @@ const Signup = () => {
 				text: "Signup Successfull !",
 				icon: "success",
 			});
-			Navigate("?")
+			Navigate("/")
 		} catch (error) {
 			console.log(error)
 			Swal.fire({
@@ -40,7 +40,7 @@ const Signup = () => {
 	}
 
     useEffect(()=>{
-      blur == false ? navigate("/") : ""
+      blur == false ? Navigate("/") : ""
     },[blur])
   return (
 		<div

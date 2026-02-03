@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Navbar'
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+
 
 const Gallery = () => {
             const [sideshow, setSideshow] = useState(false);
@@ -10,14 +12,23 @@ const Gallery = () => {
 				setData(response.data)
 				console.log(response.data)
 			}
+			const token = JSON.parse(localStorage.getItem("Token"))
+			let user_id
+			if(token){
+				const decoded = jwtDecode(token)
+				user_id = decoded.id
+			}
+
      useEffect(()=>{
 		 getBooks()
 		},[])
 
-	 const updateStatus = async(id) => {
+	 const updateStatus = async(id,el) => {
 		try {
-			const res = await axios.put(`http://localhost:5555/api/book/updateStatus/${id}`, {status: "sold"});
-			console.log(res)
+			const res = await axios.put(`http://localhost:5555/api/book/updateStatus/${id}`, {status: "not available"});
+			const book = { ...el, status: "buyed" };
+			const responce = await axios.post(`http://localhost:5555/api/book/inventoryByBuyer`, {user_id,book});
+			console.log(responce)
 			getBooks()
 		} catch (error) {
 		 console.log(error)
@@ -43,14 +54,14 @@ const Gallery = () => {
 						<h1 className="sm:text-[20px] text-[15px] font-bold text-center">{el.title}</h1>
 						<h1 className="sm:text-[15px] text-[15px]  text-center">{el.author}</h1>
 						<h1 className=" font-bold text-[22px] font-extrabold text-center">{`₹${el.price}`}</h1>
-						<div onClick={()=>updateStatus(el._id)} className="border-2 w-30 sm:w-54 h-12 m-auto flex flex-col justify-center items-center rounded-[10px] bg-black   cursor-pointer select-none transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-900 active:scale-95 ">
+						<div onClick={()=>updateStatus(el._id,el)} className="border-2 w-30 sm:w-54 h-12 m-auto flex flex-col justify-center items-center rounded-[10px] bg-black   cursor-pointer select-none transition-all duration-200 ease-out hover:scale-105 hover:bg-gray-900 active:scale-95 ">
 							{el.status == "available" ? (
 								<>
 									<h1 className="text-white font-bold text-[14px] sm:text-[20px] ">Buy</h1>
 								</>
 							) : (
 								<>
-									<h1 className="text-white font-bold text-[14px] sm:text-[20px]">Buyed</h1>
+									<h1 className="text-white font-bold text-[14px] sm:text-[20px]">Sold Out</h1>
 								</>
 							)}
 						</div>
