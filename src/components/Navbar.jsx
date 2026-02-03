@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import downArrow from "/src/assets/arrow-down-3101.png";
 import exit from "/src/assets/exit.png";
 import {jwtDecode} from 'jwt-decode' ;
+import { decode } from 'punycode';
+import Swal from 'sweetalert2';
 
 const Navbar = ({setSideshow,sideshow}) => {
 	const Token = JSON.parse(localStorage.getItem("Token"))
@@ -12,10 +14,9 @@ const Navbar = ({setSideshow,sideshow}) => {
 	let email;
 	if(Token){
 		 decoded = jwtDecode(Token)
-		 username=decoded.user.Username
-		 email = decoded.user.Email
+		 username=decoded.Username
+		 email = decoded.Email
 	}
-	// console.log(sideshow)
 	const Navigate = useNavigate()
 	const sideManager = (e) => {
 		!sideshow ? setSideshow(true) : "";
@@ -61,7 +62,7 @@ const Navbar = ({setSideshow,sideshow}) => {
 							</h1>
 							<div>
 								<img onClick={() => setDownarrow((prev) => !prev) } className={`hidden sm:block w-3 ml-1.5 transition-all ${!downarrow ? 'rotate-180' : ""} `} src={downArrow} alt="" />
-							    <div className={`hidden border-2 fixed w-30 h-12 bg-black top-13 right-2 transition-all origin-top ${ downarrow ? 'scale-y-0' : 'scale-y-100' } sm:flex justify-center items-center `}> 
+							    <div onClick={()=>{(localStorage.removeItem("Token"), Swal.fire({ text: "Logout Successfull !", icon: "success", }) , Navigate("/"));}} className={`hidden border-2 fixed w-30 h-12 bg-black top-13 right-2 transition-all origin-top ${ downarrow ? 'scale-y-0' : 'scale-y-100' } sm:flex justify-center items-center `}> 
 									<img className='w-7' src={exit} alt="" />
 									<h1 className='text-[15px]'>Logout</h1>
 								</div>
@@ -72,7 +73,7 @@ const Navbar = ({setSideshow,sideshow}) => {
 							<Link to="/"><li  className=''>Gallery</li></Link>	
 							<Link to="/inventory"><li  className=''>Inventory</li></Link>	
 							<Link to="/trades"><li  className=''>Trades</li></Link>
-							<Link><li  className=''>logout</li></Link>	
+							<li  onClick={()=> {localStorage.removeItem("Token") , Swal.fire({ text: "Logout Successfull !", icon: "success", }) , Navigate("/"); }} className=''>logout</li>
 							</ul>
 						</div>
 					</div>

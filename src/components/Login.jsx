@@ -11,7 +11,7 @@ const Login = () => {
         Email : "" ,
         Password : ""
       })
-
+      const Navigate = useNavigate()
       const saveit = (e) => {
         setLogin_Data({...Login_Data , [e.target.name] : e.target.value})
       }
@@ -21,11 +21,12 @@ const Login = () => {
         try {
           
           const response = await axios.post("http://localhost:5555/api/auth/login", Login_Data)
-          localStorage.setItem(JSON.stringify(response.data.token), "Token");
+          localStorage.setItem("Token",JSON.stringify(response.data.token));
           Swal.fire({
             text: "Login Successfull !",
             icon: "success",
           });
+          Navigate("/")
         } catch (error) {
 
 							Swal.fire({
@@ -36,9 +37,8 @@ const Login = () => {
 
         
       }
-			const navigate = useNavigate();
 			useEffect(() => {
-				blur == false ? navigate("/") : "";
+				blur == false ? Navigate("/") : "";
 			}, [blur]);
   return (
     <div onClick={ () => setBlur(false)} className='fixed z-4 backdrop-blur-[2px] bg-transparent h-screen w-screen flex justify-center items-center'>
