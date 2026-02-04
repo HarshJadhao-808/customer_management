@@ -26,9 +26,9 @@ const Gallery = () => {
 	 const updateStatus = async(id,el) => {
 		try {
 			const res = await axios.put(`http://localhost:5555/api/book/updateStatus/${id}`, {status: "not available"});
-			const book = { ...el, status: "buyed" };
+			const book = { ...el, status: "buyed"};
 			const responce = await axios.post(`http://localhost:5555/api/book/inventoryByBuyer`, {user_id,book});
-			console.log(responce)
+			// console.log(responce)
 			getBooks()
 		} catch (error) {
 		 console.log(error)

@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import DC from "/src/assets/delete_closed.png";
+import AC from "/src/assets/another.png";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
 	const [data, setData] = useState([]);
@@ -11,6 +13,17 @@ const Dashboard = () => {
 	useEffect(() => {
 		getUsers();
 	}, []);
+
+	const DeleteUser = async (id) => {
+		const res = await axios.delete(`http://localhost:5555/admin/removeUser/${id}`);
+		let message = res.data.message
+		 Swal.fire({
+					text: message,
+					icon: "success",
+				  })
+		getUsers()
+	}
+
 	return (
 		<div>
 			<div className="h-13 sm:h-18 "></div>
@@ -37,11 +50,16 @@ const Dashboard = () => {
 					{data.map((el) => (
 						<tr key={el._id}>
 							<td className="border-2 text-[10px] text-center sm:text-[18px] px-3">{el.Username}</td>
-							<td className="border-2 text-[10px] text-center sm:text-[18px] px-3">{el.Email}</td>
-							<td className="border-2 text-[10px] text-center sm:text-[18px] px-3">{el.Contact}</td>
+							<td className="border-2 text-[10px] text-center sm:text-[18px] px-2">{el.Email}</td>
+							<td className="border-2 text-[10px] text-center sm:text-[18px] px-1">{el.Contact}</td>
 							<td className="border-2 text-[10px] text-center sm:text-[18px] px-3">{el.Address}</td>
-							<td className="border-2 text-[10px] text-center sm:text-[18px] px-3">{el.Role}</td>
-							<td className="border-2 text-[10px] text-center sm:text-[18px] px-3 flex items-center justify-between"><img src={DC} className="w-3 sm:w-4" alt="" />Delete</td>
+							<td className="border-2 text-[10px] text-center sm:text-[18px] px-1">{el.Role}</td>
+							<td onClick={()=>DeleteUser(el._id)} className="border-2 text-[10px] text-center sm:text-[18px] px-3">
+								<div className="flex items-center justify-around">
+								        <img  src={DC} className={`w-3 sm:w-4 transition-all duration-300 opacity-100 group-hover:opacity-0 `} alt="" />
+								Delete
+								</div>
+								</td>
 						</tr>
 					))}
 				</tbody>

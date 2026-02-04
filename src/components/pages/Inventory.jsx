@@ -12,7 +12,6 @@ const Inventory = () => {
 	const getBooks = async () => {
 		const res = await axios.post("http://localhost:5555/api/book/getInventory",{user_id});
 		setData(res.data.data)
-		// console.log(res.data.data)
 	};
 	useEffect(() => {
 		getBooks();

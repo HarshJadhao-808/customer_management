@@ -26,7 +26,7 @@ const Navbar = ({setSideshow,sideshow}) => {
 	}
 	const [downarrow,setDownarrow] = useState(true)
   return (
-		<div onClick={()=> setSideshow(false)} className=" fixed z-3 w-screen h-8 sm:h-14 bg-amber-700 flex  justify-between items-center ">
+		<div onClick={()=> setSideshow(false)} className=" fixed z-3 w-full h-8 sm:h-14 bg-amber-700 flex  justify-between items-center ">
 				{role == "User" ? 
 			
 			<Link to="/">
