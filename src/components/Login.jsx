@@ -4,6 +4,8 @@ import hide from '/src/assets/invisible.png'
 import show from '/src/assets/view.png'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { jwtDecode } from "jwt-decode";
+
 const Login = () => {
       const [blur, setBlur] = useState(true);
       const [view, setView] = useState(false);
@@ -26,7 +28,9 @@ const Login = () => {
             text: "Login Successfull !",
             icon: "success",
           });
-          Navigate("/")
+          const decoded = jwtDecode(response.data.token)
+          const role = decoded.role
+          role == "user" ?  Navigate("/") : Navigate("/admin")
         } catch (error) {
 
 							Swal.fire({

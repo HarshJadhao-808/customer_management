@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Trades = () => {
+const ATrades = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const Trades = () => {
   )
 }
 
-export default Trades
+export default ATrades

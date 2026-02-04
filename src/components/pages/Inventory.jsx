@@ -51,7 +51,6 @@ const Inventory = () => {
 				</thead>
 				<tbody>
 				{data.map((el) => (
-					el.status == "buyed" ?
 					<tr key={el._id}>
 						<td className="border-2 text-[10px] text-center sm:text-[18px] px-3">
 							{el.title}
@@ -75,8 +74,6 @@ const Inventory = () => {
 								className="border-2 text-[10px] text-center sm:text-[18px] px-3 bg-[#DCFCE7] text-[#166534]">Sell</td>
 						)}
 					</tr>
-					:
-					""
 				))}
 				</tbody>
 			</table>
